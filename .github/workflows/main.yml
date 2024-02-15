@@ -1,0 +1,55 @@
+# main.yml
+name: CI/CD workflow
+on:
+  push:
+    branches: [ master ]
+jobs:
+  test:
+    name: Run tests
+    runs-on: self-hosted # use your self-hosted runner
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Install dependencies
+        run: npm install
+      - name: Run tests
+        run: npm test
+  deploy:
+    name: Deploy to server
+    runs-on: self-hosted # use your self-hosted runner
+    needs: test # only run after test job succeeds
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Copy files to server
+        uses: appleboy/scp-action@master
+        with:
+          host: ${{ secrets.SERVER_HOST }}
+          username: ${{ secrets.SERVER_USER }}
+          password: ${{ secrets.SERVER_PASS }}
+          source: "."
+          target: "/root"
+      - name: Create Fibonacci files
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.SERVER_HOST }}
+          username: ${{ secrets.SERVER_USER }}
+          password: ${{ secrets.SERVER_PASS }}
+          script: |
+            #!/bin/bash
+            # define a function to generate Fibonacci numbers
+            function fib() {
+              if [ $1 -le 0 ]; then
+                echo 0
+              elif [ $1 -eq 1 ]; then
+                echo 1
+              else
+                echo $(( $(fib $(( $1 - 1 )) ) + $(fib $(( $1 - 2 )) ) ))
+              fi
+            }
+            # create two files and write Fibonacci numbers to them
+            touch fib1.txt fib2.txt
+            for i in {1..20}; do
+              fib $i >> fib1.txt
+              fib $(( 21 - $i )) >> fib2.txt
+            done
