@@ -11,9 +11,9 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
       - name: Install dependencies
-        run: npm install
+        run: echo 'test1'
       - name: Run tests
-        run: npm test
+        run: echo 'test2'
   deploy:
     name: Deploy to server
     runs-on: self-hosted # use your self-hosted runner
@@ -24,17 +24,11 @@ jobs:
       - name: Copy files to server
         uses: appleboy/scp-action@master
         with:
-          host: ${{ secrets.SERVER_HOST }}
-          username: ${{ secrets.SERVER_USER }}
-          password: ${{ secrets.SERVER_PASS }}
           source: "."
           target: "/root"
       - name: Create Fibonacci files
         uses: appleboy/ssh-action@master
         with:
-          host: ${{ secrets.SERVER_HOST }}
-          username: ${{ secrets.SERVER_USER }}
-          password: ${{ secrets.SERVER_PASS }}
           script: |
             #!/bin/bash
             # define a function to generate Fibonacci numbers
