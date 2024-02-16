@@ -20,4 +20,4 @@ jobs:
     runs-on: self-hosted # use your self-hosted runner
     steps:
       - name: echo
-        run: echo ${{ secrets.WILDFLY_URL }}
+        run: /opt/wildfly/bin/jboss-cli.sh --connect --command="deploy --force /opt/actions-runner/_work/JakartaLabs/JakartaLabs/build/libs/JakartaLabs-1.0-SNAPSHOT.war"
