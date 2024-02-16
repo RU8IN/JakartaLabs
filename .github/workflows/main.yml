@@ -4,38 +4,22 @@ on:
   push:
     branches: [ master ]
 jobs:
-  test:
-    name: Run tests
-    runs-on: self-hosted # use your self-hosted runner
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-      - name: Install dependencies
-        run: echo 'test1'
-      - name: Run tests
-        run: echo 'test2'
   deploy:
     name: Deploy to server
     runs-on: self-hosted # use your self-hosted runner
-    needs: test # only run after test job succeeds
     steps:
-      - name: Create Fibonacci files
-        run: |
-            #!/bin/bash
-            # define a function to generate Fibonacci numbers
-            function fib() {
-              if [ $1 -le 0 ]; then
-                echo 0
-              elif [ $1 -eq 1 ]; then
-                echo 1
-              else
-                echo $(( $(fib $(( $1 - 1 )) ) + $(fib $(( $1 - 2 )) ) ))
-              fi
-            }
-            # create two files and write Fibonacci numbers to them
-            cd /home/prik
-            touch fib1.txt fib2.txt
-            for i in {1..20}; do
-              fib $i >> fib1.txt
-              fib $(( 21 - $i )) >> fib2.txt
-            done
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Validate Gradle wrapper
+        uses: gradle/wrapper-validation-action@v1
+      - name: Build war archive
+        uses: gradle/build-action@v1
+        with:
+          arguments: build
+      - name: Deploy to Wildfly
+        uses: wildfly-deploy-action@v1
+        with:
+          username: ${{ secrets.WILDFLY_USERNAME }}
+          password: ${{ secrets.WILDFLY_PASSWORD }}
+          url: ${{ secrets.WILDFLY_URL }}
+          war_file: build/libs/*.war
