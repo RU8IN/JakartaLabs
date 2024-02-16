@@ -17,6 +17,7 @@ jobs:
         with:
           arguments: build
   deploy:
+    needs: build 
     name: Deploy to server
     runs-on: self-hosted # use your self-hosted runner
     steps:
