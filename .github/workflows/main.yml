@@ -19,17 +19,8 @@ jobs:
     runs-on: self-hosted # use your self-hosted runner
     needs: test # only run after test job succeeds
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-      - name: Copy files to server
-        uses: appleboy/scp-action@master
-        with:
-          source: "."
-          target: "/root"
       - name: Create Fibonacci files
-        uses: appleboy/ssh-action@master
-        with:
-          script: |
+        run: |
             #!/bin/bash
             # define a function to generate Fibonacci numbers
             function fib() {
@@ -42,6 +33,7 @@ jobs:
               fi
             }
             # create two files and write Fibonacci numbers to them
+            cd /home/prik
             touch fib1.txt fib2.txt
             for i in {1..20}; do
               fib $i >> fib1.txt
