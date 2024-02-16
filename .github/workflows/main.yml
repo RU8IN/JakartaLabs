@@ -4,22 +4,21 @@ on:
   push:
     branches: [ master ]
 jobs:
+  build:
+    name: Build
+    runs-on: self-hosted
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Gradle Wrapper Validation
+        uses: gradle/wrapper-validation-action@v2.1.1
+      - name: Build with Gradle
+        uses: gradle/actions@v3.1.0
+        with:
+          arguments: build
   deploy:
     name: Deploy to server
     runs-on: self-hosted # use your self-hosted runner
     steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-      - name: Validate Gradle wrapper
-        uses: gradle/wrapper-validation-action@v1
-      - name: Build war archive
-        uses: gradle/build-action@v1
-        with:
-          arguments: build
-      - name: Deploy to Wildfly
-        uses: wildfly-deploy-action@v1
-        with:
-          username: ${{ secrets.WILDFLY_USERNAME }}
-          password: ${{ secrets.WILDFLY_PASSWORD }}
-          url: ${{ secrets.WILDFLY_URL }}
-          war_file: build/libs/*.war
+      - name: echo
+        run: echo ${{ secrets.WILDFLY_URL }}
