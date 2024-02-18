@@ -43,15 +43,15 @@
                 <!-- Ось Y -->
                 <line x1="130" y1="0" x2="130" y2="260" stroke="black"/>
                 <!-- R на оси X -->
-                <text x=230 y=130 font-size=12 font-family="Arial">R</text>
-                <text x=180 y=130 font-size=12 font-family="Arial">R/2</text>
-                <text x=80 y=130 font-size=12 font-family="Arial">-R/2</text>
-                <text x=30 y=130 font-size=12 font-family="Arial">R</text>
+                <text x=230 y=127 font-size=12 font-family="Arial">R</text>
+                <text x=180 y=127 font-size=12 font-family="Arial">R/2</text>
+                <text x=80 y=127 font-size=12 font-family="Arial">-R/2</text>
+                <text x=30 y=127 font-size=12 font-family="Arial">-R</text>
                 <!-- R на оси Y -->
-                <text x=130 y=230 font-size=12 font-family="Arial">R</text>
-                <text x=130 y=180 font-size=12 font-family="Arial">R/2</text>
-                <text x=130 y=80 font-size=12 font-family="Arial">-R/2</text>
-                <text x=130 y=30 font-size=12 font-family="Arial">R</text>
+                <text x=133 y=230 font-size=12 font-family="Arial">-R</text>
+                <text x=133 y=180 font-size=12 font-family="Arial">-R/2</text>
+                <text x=133 y=80 font-size=12 font-family="Arial">R/2</text>
+                <text x=133 y=30 font-size=12 font-family="Arial">R</text>
             </svg>
         </div>
         <!-- Форма для ввода X, Y и R -->
