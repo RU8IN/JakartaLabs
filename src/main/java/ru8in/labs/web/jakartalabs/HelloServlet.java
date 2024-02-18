@@ -18,7 +18,7 @@ public class HelloServlet extends HttpServlet {
         out.println("<html>");
         out.println("<body>");
         out.println("<h1></h1>");
-        out.println("<a href=\"/\">home</a>");
+        out.println("<a href=\"/\">home222</a> <img src=\"/resources/images/graph.png\">");
         out.println("</body>");
         out.println("</html>");
     }
