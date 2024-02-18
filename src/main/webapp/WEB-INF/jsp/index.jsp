@@ -60,7 +60,7 @@
                 <div class="form-group">
                     <div class="row">
                         <label for="x-input">Введите X (-3 ... 3)</label>
-                        <input type="float" id="x-input" name="x" min="-3" max="3" class="form-control">
+                        <input type="number" id="x-input" step="0.0001" name="x" min="-3" max="3" class="form-control">
                     </div>
                     <div class="row">
                         <label for="y-input">Выберите Y (-3 ... 5)</label>
