@@ -28,7 +28,7 @@
     <div class="row justify-content-center main">
         <!-- Картинка с графиком -->
         <div class="col-3 graph">
-            <img src="<c:url value="/images/graph.png">" alt="График" id="graph">
+            <img src="/images/graph.png" alt="График" id="graph">
         </div>
         <!-- Форма для ввода X, Y и R -->
         <div class="col-4">
