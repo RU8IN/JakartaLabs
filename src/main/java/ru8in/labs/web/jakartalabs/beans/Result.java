@@ -14,7 +14,7 @@ public class Result {
     private final Double y;
     private final Double r;
     private final Date timestamp;
-    private long executionTime;
+    private double executionTime;
 
     private boolean isValid = true;
 
@@ -69,11 +69,11 @@ public class Result {
         return timestamp;
     }
 
-    public long getExecutionTime() {
+    public double getExecutionTime() {
         return executionTime;
     }
 
-    public void setExecutionTime(long executionTime) {
+    public void setExecutionTime(double executionTime) {
         this.executionTime = executionTime;
     }
 }
