@@ -28,7 +28,31 @@
     <div class="row justify-content-center main">
         <!-- Картинка с графиком -->
         <div class="col-3 graph">
-            <img src="${pageContext.request.contextPath}/resources/images/graph.png" alt="График" id="graph">
+<%--            <img src="${pageContext.request.contextPath}/resources/images/graph.png" alt="График" id="graph">--%>
+            <svg width="260" height="260" viewBox="260 260" xmlns="http://www.w3.org/2000/svg">
+                <!-- 2 четверть -->
+                <circle r="100" cx="130" cy="130" fill="#add8e6"/>
+                <rect x="0" y="130" width="260" height="130" fill="white" />
+                <rect x="130" y="0" width="130" height="130" fill="white" />
+                <!-- 1 четверть -->
+                <polygon points="230, 130 130,30 130,130" fill="#add8e6"/>
+                <!-- 4 четверть -->
+                <rect x=130 y=130 width=50 height=100 fill="#add8e6"/>
+                <!-- Ось X -->
+                <line x1="0" y1="130" x2="350" y2="130" stroke="black"/>
+                <!-- Ось Y -->
+                <line x1="130" y1="0" x2="130" y2="260" stroke="black"/>
+                <!-- R на оси X -->
+                <text x=230 y=130 font-size=12 font-family="Arial">R</text>
+                <text x=180 y=130 font-size=12 font-family="Arial">R/2</text>
+                <text x=80 y=130 font-size=12 font-family="Arial">-R/2</text>
+                <text x=30 y=130 font-size=12 font-family="Arial">R</text>
+                <!-- R на оси Y -->
+                <text x=130 y=230 font-size=12 font-family="Arial">R</text>
+                <text x=130 y=180 font-size=12 font-family="Arial">R/2</text>
+                <text x=130 y=80 font-size=12 font-family="Arial">-R/2</text>
+                <text x=130 y=30 font-size=12 font-family="Arial">R</text>
+            </svg>
         </div>
         <!-- Форма для ввода X, Y и R -->
         <div class="col-4">
