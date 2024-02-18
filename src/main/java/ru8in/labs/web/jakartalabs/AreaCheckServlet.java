@@ -14,28 +14,30 @@ import ru8in.labs.web.jakartalabs.beans.ResultManager;
 import java.io.IOException;
 import java.util.Date;
 
-@WebServlet("/check")
+@WebServlet(name = "AreaCheckServlet", value = "/check")
 public class AreaCheckServlet extends HttpServlet {
     @EJB
     private ResultManager resultManager; // Предполагается, что у вас есть EJB для управления результатами
 
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-        // Получаем параметры X, Y, R из запроса
-
-        Double x = parseArgument(request.getParameter("x"));
-        Double y = parseArgument(request.getParameter("y"));
-        Double r = parseArgument(request.getParameter("r"));
-
-        // Создаем новый результат и добавляем его в сессию
-        Result result = new Result(x, y, r);
-        HttpSession session = request.getSession(true);
-        resultManager.addResult(session.getId(), result);
-        result.setExecutionTime((new Date().getTime()-result.getTimestamp().getTime())/1000);
-        System.out.println(resultManager.hashCode());
-
+    protected void doGet(HttpServletRequest req, HttpServletResponse response) throws IOException, ServletException {
+        HttpSession session = req.getSession(true);
         session.setAttribute("resultManager", resultManager.getResults(session.getId()));
+        req.getRequestDispatcher("/WEB-INF/jsp/table.jsp").forward(req, response);
+    }
 
-        request.getRequestDispatcher("/WEB-INF/jsp/table.jsp").forward(request, response);
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        Double x = parseArgument(req.getParameter("x"));
+        Double y = parseArgument(req.getParameter("y"));
+        Double r = parseArgument(req.getParameter("r"));
+
+        Result result = new Result(x, y, r);
+
+        HttpSession session = req.getSession(true);
+        resultManager.addResult(session.getId(), result);
+        result.setExecutionTime(((new Date().getTime()-result.getTimestamp().getTime())/1000.0));
+        session.setAttribute("result", result);
+        req.getRequestDispatcher("/WEB-INF/jsp/table_row.jsp").forward(req, resp);
     }
 
     private static Double parseArgument(String argument) {

@@ -2,7 +2,7 @@
 <%@ page import="java.util.List" %>
 <%@ page import="ru8in.labs.web.jakartalabs.beans.Result" %>
 <%@ page import="java.util.ArrayDeque" %>
-
+<%@ taglib prefix="tableTags" tagdir="/WEB-INF/tags" %>
 <table class="table gy-5 table-light table-striped">
     <thead>
     <tr>
@@ -16,14 +16,7 @@
     <% ArrayDeque<Result> results = (ArrayDeque<Result>) session.getAttribute("resultManager"); %>
 
     <% for (Result result : results) { %>
-        <% System.out.println("прикол2"); %>
-        <tr>
-            <th><%= result.getTimestamp() %></th>
-            <td><%= result.getX() %>, <%= result.getY() %>, <%= result.getR() %></td>
-            <td><%= result.isHit() %></td>
-            <td><%= result.getExecutionTime() %></td>
-        </tr>
-
+        <tableTags:tableRow result="<%= result %>"/>
     <% } %>
     </tbody>
 </table>
