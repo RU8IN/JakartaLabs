@@ -28,8 +28,7 @@
     <div class="row justify-content-center main">
         <!-- Картинка с графиком -->
         <div class="col-3 graph">
-<%--            <img src="${pageContext.request.contextPath}/resources/images/graph.png" alt="График" id="graph">--%>
-            <svg width="260" height="260" viewBox="260 260" xmlns="http://www.w3.org/2000/svg">
+            <svg width="260" height="260" viewBox="0 0 260 260" xmlns="http://www.w3.org/2000/svg" id="graph">
                 <!-- 2 четверть -->
                 <circle r="100" cx="130" cy="130" fill="#add8e6"/>
                 <rect x="0" y="130" width="260" height="130" fill="white" />
