@@ -153,6 +153,26 @@
         </div>
     </div>
 </div>
+<script>
+    document.getElementById('graph').addEventListener('click', function(event) {
+        var svg = document.getElementById('graph');
+        var svgRect = svg.getBoundingClientRect();
+        var svgX = svgRect.x + svgRect.width / 2; // центр квадрата
+        var svgY = svgRect.y + svgRect.height / 2; // центр квадрата
 
+        var mouseX = event.clientX;
+        var mouseY = event.clientY;
+
+        var offsetX = mouseX - svgX;
+        var offsetY = mouseY - svgY;
+
+        console.log('Координаты курсора на прямоугольнике:');
+        console.log('X:', offsetX);
+        console.log('Y:', offsetY);
+    });
+
+
+
+</script>
 </body>
 </html>
