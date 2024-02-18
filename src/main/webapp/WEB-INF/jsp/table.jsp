@@ -1,5 +1,4 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ page import="java.util.List" %>
 <%@ page import="ru8in.labs.web.jakartalabs.beans.Result" %>
 <%@ page import="java.util.ArrayDeque" %>
 <%@ taglib prefix="tableTags" tagdir="/WEB-INF/tags" %>
