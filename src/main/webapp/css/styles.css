@@ -1,0 +1,22 @@
+.header {
+    padding-top: 20px;
+    margin-bottom: 20px;
+}
+
+.main {
+    padding-top: 50px;
+}
+
+
+#submit-button {
+    padding-right: 1.5rem;
+    padding-left: 1.5rem;
+}
+
+#graph {
+    height: 100%;
+}
+
+.graph {
+    margin-right: 15px;
+}
