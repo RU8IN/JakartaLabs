@@ -4,7 +4,7 @@ plugins {
 }
 
 group 'ru8in.labs.web'
-version '1.0-SNAPSHOT'
+version '2'
 
 repositories {
     mavenCentral()
