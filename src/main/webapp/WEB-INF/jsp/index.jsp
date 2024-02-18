@@ -8,7 +8,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
     <style>
-        <%@include file="css/styles.css"%>
+        <%@include file="../../resources/css/styles.css"%>
     </style>
     <!-- Подключаем bootstrap 5 js -->
 </head>
@@ -18,7 +18,7 @@
     <div class="row">
         <div class="col-12 bg-light">
             <div class="header">
-                <h3 class="text-center">Студент: Васькиин Вячеслав Денисович</h3>
+                <h3 class="text-center">Студент: Васькин Вячеслав Денисович</h3>
                 <h3 class="text-center">Группа: P3211 | ИСУ: 33231 | <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
                     Задание
                 </button></h3>
@@ -28,7 +28,7 @@
     <div class="row justify-content-center main">
         <!-- Картинка с графиком -->
         <div class="col-3 graph">
-            <img src="/images/graph.png" alt="График" id="graph">
+            <img src="${pageContext.request.contextPath}/resources/images/graph.png" alt="График" id="graph">
         </div>
         <!-- Форма для ввода X, Y и R -->
         <div class="col-4">
