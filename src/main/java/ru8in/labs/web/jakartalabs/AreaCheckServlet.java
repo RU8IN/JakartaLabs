@@ -1,7 +1,6 @@
 package ru8in.labs.web.jakartalabs;
 
 import jakarta.ejb.EJB;
-import jakarta.inject.Inject;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -28,12 +27,10 @@ public class AreaCheckServlet extends HttpServlet {
         String showTable = (String) req.getAttribute("showTable");
 
         if (showTable != null && showTable.equals("true")) {
-            System.out.println("return table");
             HttpSession session = req.getSession(true);
             session.setAttribute("resultManager", resultManager.getResults(session.getId()));
             req.getRequestDispatcher("/WEB-INF/jsp/table.jsp").forward(req, resp);
         } else {
-            System.out.println("return row");
             Result result = new Result(x, y, r);
 
             HttpSession session = req.getSession(true);

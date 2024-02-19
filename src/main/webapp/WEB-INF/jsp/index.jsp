@@ -172,10 +172,6 @@
             var offsetX = (mouseX - svgX) / 100;
             var offsetY = (svgY - mouseY) / 100;
 
-            console.log('Координаты курсора на прямоугольнике:');
-            console.log('X:', offsetX / 100 * 1);
-            console.log('Y:', offsetY / 100 * 1);
-
             // sendForm(offsetX, offsetY, document.getElementById('r-input').value);
             sendForm(offsetX, offsetY, 1);
         });
@@ -221,7 +217,7 @@
             // Выполнение POST запроса
             fetch('http://<%= request.getServerName() %>:<%= request.getServerPort()%>/JakartaLabs-2/2', requestOptions)
                 .then(response => response.text())
-                .then(data => {
+                .then(() => {
                     document.getElementById('results-table').innerHTML = '';
                 })
                 .catch(error => console.error('Ошибка при выполнении запроса:', error));
