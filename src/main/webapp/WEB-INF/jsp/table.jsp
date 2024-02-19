@@ -11,7 +11,7 @@
         <th scope="col">Время выполнения скрипта</th>
     </tr>
     </thead>
-    <tbody>
+    <tbody id="results-table">
     <% ArrayDeque<Result> results = (ArrayDeque<Result>) session.getAttribute("resultManager"); %>
 
     <% for (Result result : results) { %>

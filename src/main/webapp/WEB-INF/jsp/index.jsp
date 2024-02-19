@@ -55,7 +55,7 @@
             </div>
             <!-- Форма для ввода X, Y и R -->
             <div class="col-4">
-                <form method="POST" id="form">
+                <form method="POST" id="form" onsubmit="event.preventDefault(); sendForm(document.getElementById('x-input').value, document.getElementById('y-input').value, document.getElementById('r-input').value);">
                     <div class="form-group">
                         <div class="row">
                             <label for="x-input">Введите X (-3 ... 3)</label>
@@ -86,7 +86,12 @@
                             </select>
                         </div>
                         <div class="row">
-                            <button type="submit" class="btn btn-primary gy-3 form-control" id="submit-button">Проверить</button>
+                            <div class="col gy-3" style="padding-left: 0">
+                                <button type="submit" class="btn btn-primary gy-3 form-control" id="submit-button">Проверить</button>
+                            </div>
+                            <div class="col gy-3" style="padding-right: 0">
+                                <button type="button" class="btn btn-warning gy-3 form-control" id="clear-button" onclick="clearTable()">Очистка</button>
+                            </div>
                         </div>
                     </div>
                 </form>
@@ -149,7 +154,7 @@
             </div>
         </div>
         <!-- Таблица с результатами -->
-        <div id="results-table">
+        <div id="table-container" style="padding-top: 40px">
 
         </div>
 
@@ -164,23 +169,25 @@
             var mouseX = event.clientX;
             var mouseY = event.clientY;
 
-            var offsetX = mouseX - svgX;
-            var offsetY = svgY - mouseY;
+            var offsetX = (mouseX - svgX) / 100;
+            var offsetY = (svgY - mouseY) / 100;
 
             console.log('Координаты курсора на прямоугольнике:');
             console.log('X:', offsetX / 100 * 1);
             console.log('Y:', offsetY / 100 * 1);
+
+            // sendForm(offsetX, offsetY, document.getElementById('r-input').value);
+            sendForm(offsetX, offsetY, 1);
         });
     </script>
     <script>
-        window.onload = function() {
+        function sendForm(x, y, r, showTable=false) {
             // Параметры запроса
             const params = new URLSearchParams();
-            params.append('x', '1');
-            params.append('y', '2');
-            params.append('r', '3');
-            params.append('showTable', 'true');
-            params.append('JSESSIONID', '<%= session.getId() %>');
+            params.append('x', x);
+            params.append('y', y);
+            params.append('r', r);
+            params.append('showTable', showTable.toString());
 
             // Опции запроса
             const requestOptions = {
@@ -189,34 +196,36 @@
             };
 
             // Выполнение POST запроса
-            fetch('http://localhost:8082/JakartaLabs-2/2', requestOptions)
+            fetch('http://<%= request.getServerName() %>:<%= request.getServerPort()%>/JakartaLabs-2/2', requestOptions)
                 .then(response => response.text())
                 .then(data => {
                     // Вставка содержимого ответа в блок div с id results-table
-                    document.getElementById('results-table').innerHTML = data;
+                    if (showTable) document.getElementById('table-container').innerHTML = data;
+                    else document.getElementById('results-table').innerHTML = data + document.getElementById('results-table').innerHTML;
                 })
                 .catch(error => console.error('Ошибка при выполнении запроса:', error));
-        };
+        }
+        window.onload = () => sendForm(document.getElementById('x-input').value, document.getElementById('y-input').value, document.getElementById('r-input').value, true);
     </script>
     <script>
-        document.getElementById("myForm").addEventListener("submit", function(event) {
-            event.preventDefault(); // Prevent page reload
-            console.log("privet")
-            // Get form data
-            const formData = new FormData(document.getElementById("form"));
+        function clearTable() {
+            // Параметры запроса
+            const params = new URLSearchParams();
+            params.append('clearTable', 'true');
 
-            // Send POST request
-            fetch("http://localhost:8082/JakartaLabs-2/2", {
-                method: "POST",
-                body: formData
-            })
-                .then(response => response.text()) // Parse response as text
+            // Опции запроса
+            const requestOptions = {
+                method: 'POST',
+                body: params
+            };
+            // Выполнение POST запроса
+            fetch('http://<%= request.getServerName() %>:<%= request.getServerPort()%>/JakartaLabs-2/2', requestOptions)
+                .then(response => response.text())
                 .then(data => {
-                    // Add response HTML to the beginning of the result div
-                    document.getElementById("result").innerHTML = data + document.getElementById("result").innerHTML;
+                    document.getElementById('results-table').innerHTML = '';
                 })
-                .catch(error => console.error('Error:', error));
-        });
+                .catch(error => console.error('Ошибка при выполнении запроса:', error));
+        }
     </script>
 </body>
 </html>

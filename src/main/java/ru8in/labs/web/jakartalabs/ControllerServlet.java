@@ -19,16 +19,25 @@ public class ControllerServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-        Double x = parseArgument(req.getParameter("x"));
-        Double y = parseArgument(req.getParameter("y"));
-        Double r = parseArgument(req.getParameter("r"));
+        String clear = req.getParameter("clearTable");
 
-        req.setAttribute("showTable", req.getParameter("showTable"));
-        req.setAttribute("x", x);
-        req.setAttribute("y", y);
-        req.setAttribute("r", r);
+        if (clear != null && clear.equals("true")) {
+            req.getRequestDispatcher("/clear").forward(req, resp);
+        }
+        else {
+            Double x = parseArgument(req.getParameter("x"));
+            Double y = parseArgument(req.getParameter("y"));
+            Double r = parseArgument(req.getParameter("r"));
 
-        req.getRequestDispatcher("/check").forward(req, resp);
+            req.setAttribute("showTable", req.getParameter("showTable"));
+            ;
+            req.setAttribute("x", x);
+            req.setAttribute("y", y);
+            req.setAttribute("r", r);
+
+
+            req.getRequestDispatcher("/check").forward(req, resp);
+        }
     }
 
     private static Double parseArgument(String argument) {

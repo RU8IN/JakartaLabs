@@ -22,9 +22,10 @@ public class Result {
         if (x == null || y == null || r == null) {
             isValid = false;
         }
-        else if (!yRange.contains(y) || !rRange.contains(r)) {
-            this.isValid = false;
-        }
+//        else if (!yRange.contains(y) || !rRange.contains(r)) {
+//            this.isValid = false;
+//        }
+
         this.x = x;
         this.y = y;
         this.r = r;
