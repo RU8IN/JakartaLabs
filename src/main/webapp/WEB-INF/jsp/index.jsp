@@ -193,7 +193,7 @@
 
             // Выполнение POST запроса
             var baseUrl = window.location.protocol + "//" + window.location.host + "/";
-            fetch(baseUrl + '/JakartaLabs-2/2', requestOptions)
+            fetch(baseUrl + '/JakartaLabs-2/', requestOptions)
                 .then(response => response.text())
                 .then(data => {
                     // Вставка содержимого ответа в блок div с id results-table
@@ -217,7 +217,7 @@
             };
             // Выполнение POST запроса
             var baseUrl = window.location.protocol + "//" + window.location.host + "/";
-            fetch(baseUrl + '/JakartaLabs-2/2', requestOptions)
+            fetch(baseUrl + '/JakartaLabs-2/', requestOptions)
                 .then(response => response.text())
                 .then(() => {
                     document.getElementById('results-table').innerHTML = '';

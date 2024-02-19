@@ -8,7 +8,7 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
 
-@WebServlet(name="ControllerServlet", value = "/2")
+@WebServlet(name="ControllerServlet")
 public class ControllerServlet extends HttpServlet {
 
     @Override
