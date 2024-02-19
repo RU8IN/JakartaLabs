@@ -17,34 +17,30 @@ import java.util.Date;
 @WebServlet(name = "AreaCheckServlet", value = "/check")
 public class AreaCheckServlet extends HttpServlet {
     @EJB
-    private ResultManager resultManager; // Предполагается, что у вас есть EJB для управления результатами
-
-    protected void doGet(HttpServletRequest req, HttpServletResponse response) throws IOException, ServletException {
-        HttpSession session = req.getSession(true);
-        session.setAttribute("resultManager", resultManager.getResults(session.getId()));
-        req.getRequestDispatcher("/WEB-INF/jsp/table.jsp").forward(req, response);
-    }
+    private ResultManager resultManager;
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        Double x = parseArgument(req.getParameter("x"));
-        Double y = parseArgument(req.getParameter("y"));
-        Double r = parseArgument(req.getParameter("r"));
 
-        Result result = new Result(x, y, r);
+        Double x = (Double) req.getAttribute("x");
+        Double y = (Double) req.getAttribute("y");
+        Double r = (Double) req.getAttribute("r");
+        String showTable = (String) req.getAttribute("showTable");
 
-        HttpSession session = req.getSession(true);
-        resultManager.addResult(session.getId(), result);
-        result.setExecutionTime(((new Date().getTime()-result.getTimestamp().getTime())/1000.0));
-        session.setAttribute("result", result);
-        req.getRequestDispatcher("/WEB-INF/jsp/table_row.jsp").forward(req, resp);
-    }
+        if (showTable != null && showTable.equals("true")) {
+            System.out.println("return table");
+            HttpSession session = req.getSession(true);
+            session.setAttribute("resultManager", resultManager.getResults(session.getId()));
+            req.getRequestDispatcher("/WEB-INF/jsp/table.jsp").forward(req, resp);
+        } else {
+            System.out.println("return row");
+            Result result = new Result(x, y, r);
 
-    private static Double parseArgument(String argument) {
-        try {
-            return Double.parseDouble(argument);
-        } catch (NumberFormatException | NullPointerException e) {
-            return null;
+            HttpSession session = req.getSession(true);
+            resultManager.addResult(session.getId(), result);
+            result.setExecutionTime(((new Date().getTime()-result.getTimestamp().getTime())/1000.0));
+            session.setAttribute("result", result);
+            req.getRequestDispatcher("/WEB-INF/jsp/table_row.jsp").forward(req, resp);
         }
     }
 }
