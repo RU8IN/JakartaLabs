@@ -192,7 +192,8 @@
             };
 
             // Выполнение POST запроса
-            var baseUrl = window.location.protocol + "//" + window.location.host + "/";
+            var baseUrl = window.location.protocol + "//" + window.location.host;
+            console.log(baseUrl + '/JakartaLabs-2/2');
             fetch(baseUrl + '/JakartaLabs-2/2', requestOptions)
                 .then(response => response.text())
                 .then(data => {
@@ -216,7 +217,8 @@
                 body: params
             };
             // Выполнение POST запроса
-            var baseUrl = window.location.protocol + "//" + window.location.host + "/";
+            var baseUrl = window.location.protocol + "//" + window.location.host;
+            console.log(baseUrl + '/JakartaLabs-2/2');
             fetch(baseUrl + '/JakartaLabs-2/2', requestOptions)
                 .then(response => response.text())
                 .then(() => {
