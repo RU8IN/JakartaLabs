@@ -1,5 +1,4 @@
 <%@ page contentType="text/html;charset=utf-8" %>
-<% String host = request.isSecure() ? "https" : "http" + "://" + request.getServerName() + ":" + request.getServerPort(); %>
 <!DOCTYPE html>
 <html lang="ru">
 <head>
@@ -193,7 +192,8 @@
             };
 
             // Выполнение POST запроса
-            fetch('<%= host %>/JakartaLabs-2/2', requestOptions)
+            var baseUrl = window.location.protocol + "//" + window.location.host + "/";
+            fetch(baseUrl + '/JakartaLabs-2/2', requestOptions)
                 .then(response => response.text())
                 .then(data => {
                     // Вставка содержимого ответа в блок div с id results-table
@@ -216,7 +216,8 @@
                 body: params
             };
             // Выполнение POST запроса
-            fetch('<%= host %>/JakartaLabs-2/2', requestOptions)
+            var baseUrl = window.location.protocol + "//" + window.location.host + "/";
+            fetch(baseUrl + '/JakartaLabs-2/2', requestOptions)
                 .then(response => response.text())
                 .then(() => {
                     document.getElementById('results-table').innerHTML = '';
