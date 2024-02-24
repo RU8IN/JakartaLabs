@@ -1,6 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page import="ru8in.labs.web.jakartalabs.beans.Result" %>
-<%@ page import="java.util.ArrayDeque" %>
+<%@ page import="java.util.List" %>
 <%@ taglib prefix="tableTags" tagdir="/WEB-INF/tags" %>
 <table class="table gy-5 table-light table-striped">
     <thead>
@@ -12,7 +12,7 @@
     </tr>
     </thead>
     <tbody id="results-table">
-    <% ArrayDeque<Result> results = (ArrayDeque<Result>) session.getAttribute("resultManager"); %>
+    <% List<Result> results = (List<Result>) session.getAttribute("resultManager"); %>
 
     <% for (Result result : results) { %>
         <tableTags:tableRow result="<%= result %>"/>

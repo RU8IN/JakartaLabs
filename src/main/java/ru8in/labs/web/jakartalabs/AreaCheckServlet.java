@@ -1,6 +1,7 @@
 package ru8in.labs.web.jakartalabs;
 
 import jakarta.ejb.EJB;
+import jakarta.inject.Inject;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -8,6 +9,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import ru8in.labs.web.jakartalabs.beans.Result;
+import ru8in.labs.web.jakartalabs.beans.ResultList;
 import ru8in.labs.web.jakartalabs.beans.ResultManager;
 
 import java.io.IOException;
@@ -15,9 +17,9 @@ import java.util.Date;
 
 @WebServlet(name = "AreaCheckServlet", value = "/check")
 public class AreaCheckServlet extends HttpServlet {
-    @EJB
-    private ResultManager resultManager;
 
+    @Inject
+    private ResultList results;
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
@@ -28,13 +30,12 @@ public class AreaCheckServlet extends HttpServlet {
 
         if (showTable != null && showTable.equals("true")) {
             HttpSession session = req.getSession(true);
-            session.setAttribute("resultManager", resultManager.getResults(session.getId()));
+            session.setAttribute("resultManager", results.getResults());
             req.getRequestDispatcher("/WEB-INF/jsp/table.jsp").forward(req, resp);
         } else {
             Result result = new Result(x, y, r);
-
             HttpSession session = req.getSession(true);
-            resultManager.addResult(session.getId(), result);
+            results.addResult(result);
             result.setExecutionTime(((new Date().getTime()-result.getTimestamp().getTime())/1000.0));
             session.setAttribute("result", result);
             req.getRequestDispatcher("/WEB-INF/jsp/table_row.jsp").forward(req, resp);
