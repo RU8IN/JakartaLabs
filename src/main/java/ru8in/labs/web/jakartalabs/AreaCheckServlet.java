@@ -1,6 +1,5 @@
 package ru8in.labs.web.jakartalabs;
 
-import jakarta.ejb.EJB;
 import jakarta.inject.Inject;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;

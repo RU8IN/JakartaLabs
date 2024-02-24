@@ -10,7 +10,6 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import ru8in.labs.web.jakartalabs.beans.Result;
 import ru8in.labs.web.jakartalabs.beans.ResultList;
-import ru8in.labs.web.jakartalabs.beans.ResultManager;
 
 import java.io.IOException;
 import java.util.Date;
