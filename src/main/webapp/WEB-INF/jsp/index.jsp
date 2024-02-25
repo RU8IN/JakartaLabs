@@ -186,6 +186,9 @@
             circle.setAttribute("fill", fill)
         }
         function addRow(rowData) {
+            if (rowData.x == null) rowData.x = "Некорректный X"
+            if (rowData.y == null) rowData.y = "Некорректный Y"
+            if (rowData.r == null) rowData.r = "Некорректный R"
             let tableRef = document.getElementById('results-table');
             tableRef.innerHTML =
                 `<tr>
@@ -195,17 +198,20 @@
                     <td>${rowData.executionTime}</td>
                 </tr>`
                 + tableRef.innerHTML;
-            let svg = document.getElementById('graph');
-            var svgRect = svg.getBoundingClientRect();
 
-            let x = (rowData.x * 100) + svgRect.width / 2;
-            let y = -(rowData.y * 100) + svgRect.height / 2;
+            if (rowData.isValid === true) {
+                let svg = document.getElementById('graph');
+                var svgRect = svg.getBoundingClientRect();
 
-            let circle = createCircle(x, y);
-            svg.appendChild(circle);
+                let x = (rowData.x * 100) + svgRect.width / 2;
+                let y = -(rowData.y * 100) + svgRect.height / 2;
 
-            if (rowData.isHit === true) setCircleFill(circle, "green")
-            else setCircleFill(circle, "red");
+                let circle = createCircle(x, y);
+                svg.appendChild(circle);
+
+                if (rowData.isHit === true) setCircleFill(circle, "green")
+                else setCircleFill(circle, "red");
+            }
 
         }
     </script>

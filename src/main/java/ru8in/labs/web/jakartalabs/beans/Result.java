@@ -9,8 +9,6 @@ public class Result {
     private final static String MESSAGE_SUCCESS = "✅ Попадание";
     private final static String MESSAGE_FAIL = "❌ Промах";
     private final static String MESSAGE_ERROR = "⛔ Некорректные данные";
-    private static final List<Double> yRange = Arrays.asList(-3.0, -2.0, -1.0, 0.0, 1.0, 2.0, 3.0, 4.0, 5.0);
-    private static final List<Double> rRange = Arrays.asList(1.0, 2.0, 3.0, 4.0, 5.0);
 
     private final Double x;
     private final Double y;
@@ -23,21 +21,31 @@ public class Result {
     private boolean isValid = true;
 
     public Result(Double x, Double y, Double r) {
-        if (x == null || y == null || r == null) {
-            isValid = false;
-        }
-//        else if (!yRange.contains(y)) {
-//            this.isValid = false;
-//        }
-        else if (!rRange.contains(r)) {
-            this.isValid = false;
-        }
-
         this.x = x;
         this.y = y;
         this.r = r;
         this.timestamp = new Date();
+        this.isValid = validate(x, y, r);
         this.isHit = calculateHit();
+    }
+
+    private static boolean validate(Double x, Double y, Double r) {
+        List<Double> yRange = Arrays.asList(-3.0, -2.0, -1.0, 0.0, 1.0, 2.0, 3.0, 4.0, 5.0);
+        List<Double> rRange = Arrays.asList(1.0, 2.0, 3.0, 4.0, 5.0);
+
+        if (x == null || y == null || r == null) {
+            return false;
+        }
+//        else if (!yRange.contains(y)) {
+//            return false;
+//        }
+        else if (y < -3.0 || y > 5.0) {
+            return false;
+        }
+        else if (!rRange.contains(r)) {
+            return false;
+        }
+        return true;
     }
 
     private boolean calculateHit() {
@@ -104,6 +112,7 @@ public class Result {
         object.put("x", this.getX());
         object.put("y", this.getY());
         object.put("r", this.getR());
+        object.put("isValid", this.isValid);
         object.put("hitMessage", this.getHitMessage());
         object.put("timestamp", this.getTimestamp());
         object.put("executionTime", this.getExecutionTime());
