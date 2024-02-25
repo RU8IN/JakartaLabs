@@ -10,6 +10,6 @@
 <tr>
     <th><%= result.getTimestamp() %></th>
     <td><%= result.getX() %>, <%= result.getY() %>, <%= result.getR() %></td>
-    <td><%= result.isHit() %></td>
+    <td><%= result.getHitMessage() %></td>
     <td><%= result.getExecutionTime() %></td>
 </tr>

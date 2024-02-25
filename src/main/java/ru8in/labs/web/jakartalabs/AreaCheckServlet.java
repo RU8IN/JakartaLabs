@@ -36,6 +36,8 @@ public class AreaCheckServlet extends HttpServlet {
             results.addResult(result);
             result.setExecutionTime(((new Date().getTime()-result.getTimestamp().getTime())/1000.0));
             session.setAttribute("result", result);
+            if (result.isHit()) resp.setStatus(200);
+            else resp.setStatus(400);
             req.getRequestDispatcher("/WEB-INF/jsp/table_row.jsp").forward(req, resp);
         }
     }

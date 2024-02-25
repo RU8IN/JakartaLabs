@@ -172,12 +172,21 @@
             var offsetX = (mouseX - svgX) / 100;
             var offsetY = (svgY - mouseY) / 100;
 
+            // Создаем новый элемент SVG для точки (круга)
+            var circle = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+            // Устанавливаем атрибуты для круга (цвет, радиус, координаты)
+            circle.setAttribute("cx", mouseX - svgX + svgRect.width / 2);
+            circle.setAttribute("cy", mouseY - svgY + svgRect.height / 2);
+            circle.setAttribute("r", 5); // Радиус круга (можно установить другое значение)
+            circle.setAttribute("class", "graph_circle")
+            // Добавляем круг внутрь SVG элемента
+            svg.appendChild(circle);
             // sendForm(offsetX, offsetY, document.getElementById('r-input').value);
-            sendForm(offsetX, offsetY, 1);
+            sendForm(offsetX, offsetY, 1, false, circle);
         });
     </script>
     <script>
-        function sendForm(x, y, r, showTable=false) {
+        function sendForm(x, y, r, showTable=false, circle=null) {
             // Параметры запроса
             const params = new URLSearchParams();
             params.append('x', x);
@@ -193,9 +202,18 @@
 
             // Выполнение POST запроса
             var baseUrl = window.location.protocol + "//" + window.location.host;
-            console.log(baseUrl + '/JakartaLabs-2/2');
-            fetch(baseUrl + '/JakartaLabs-2/2', requestOptions)
-                .then(response => response.text())
+            return fetch(baseUrl + '/JakartaLabs-2/2', requestOptions)
+                .then(response => {
+                    if (circle !== null) {
+                        if (response.status === 200) {
+                            circle.setAttribute("fill", "green")
+                        }
+                        else {
+                            circle.setAttribute("fill", "red")
+                        }
+                    }
+                    return response.text();
+                })
                 .then(data => {
                     // Вставка содержимого ответа в блок div с id results-table
                     if (showTable) document.getElementById('table-container').innerHTML = data;
@@ -218,7 +236,6 @@
             };
             // Выполнение POST запроса
             var baseUrl = window.location.protocol + "//" + window.location.host;
-            console.log(baseUrl + '/JakartaLabs-2/2');
             fetch(baseUrl + '/JakartaLabs-2/2', requestOptions)
                 .then(response => response.text())
                 .then(() => {
