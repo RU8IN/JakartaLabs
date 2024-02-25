@@ -1,4 +1,5 @@
 <%@ page contentType="text/html;charset=utf-8" %>
+<%@ page isELIgnored="true"%>
 <!DOCTYPE html>
 <html lang="ru">
 <head>
@@ -155,10 +156,59 @@
         </div>
         <!-- Таблица с результатами -->
         <div id="table-container" style="padding-top: 40px">
-
+            <table class="table gy-5 table-light table-striped">
+                <thead>
+                <tr>
+                    <th scope="col">Время</th>
+                    <th scope="col">Координаты</th>
+                    <th scope="col">Попадание</th>
+                    <th scope="col">Время выполнения скрипта</th>
+                </tr>
+                </thead>
+                <tbody id="results-table">
+                </tbody>
+            </table>
         </div>
 
     </div>
+    <script>
+        function createCircle(x, y) {
+            var circle = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+            // Устанавливаем атрибуты для круга (цвет, радиус, координаты)
+            circle.setAttribute("cx", x);
+            circle.setAttribute("cy", y);
+            circle.setAttribute("r", 5); // Радиус круга (можно установить другое значение)
+            circle.setAttribute("class", "graph_circle")
+            // Добавляем круг внутрь SVG элемента
+            return circle;
+        }
+        function setCircleFill(circle, fill) {
+            circle.setAttribute("fill", fill)
+        }
+        function addRow(rowData) {
+            let tableRef = document.getElementById('results-table');
+            tableRef.innerHTML =
+                `<tr>
+                    <th>${rowData.timestamp}</th>
+                    <td>${rowData.x}, ${rowData.y}, ${rowData.r}</td>
+                    <td>${rowData.hitMessage}</td>
+                    <td>${rowData.executionTime}</td>
+                </tr>`
+                + tableRef.innerHTML;
+            let svg = document.getElementById('graph');
+            var svgRect = svg.getBoundingClientRect();
+
+            let x = (rowData.x * 100) + svgRect.width / 2;
+            let y = -(rowData.y * 100) + svgRect.height / 2;
+
+            let circle = createCircle(x, y);
+            svg.appendChild(circle);
+
+            if (rowData.isHit === true) setCircleFill(circle, "green")
+            else setCircleFill(circle, "red");
+
+        }
+    </script>
     <script>
         document.getElementById('graph').addEventListener('click', function(event) {
             var svg = document.getElementById('graph');
@@ -172,21 +222,12 @@
             var offsetX = (mouseX - svgX) / 100;
             var offsetY = (svgY - mouseY) / 100;
 
-            // Создаем новый элемент SVG для точки (круга)
-            var circle = document.createElementNS("http://www.w3.org/2000/svg", "circle");
-            // Устанавливаем атрибуты для круга (цвет, радиус, координаты)
-            circle.setAttribute("cx", mouseX - svgX + svgRect.width / 2);
-            circle.setAttribute("cy", mouseY - svgY + svgRect.height / 2);
-            circle.setAttribute("r", 5); // Радиус круга (можно установить другое значение)
-            circle.setAttribute("class", "graph_circle")
-            // Добавляем круг внутрь SVG элемента
-            svg.appendChild(circle);
-            // sendForm(offsetX, offsetY, document.getElementById('r-input').value);
-            sendForm(offsetX, offsetY, 1, false, circle);
+            sendForm(offsetX, offsetY, 1, false);
         });
+
     </script>
     <script>
-        function sendForm(x, y, r, showTable=false, circle=null) {
+        function sendForm(x, y, r, showTable=false) {
             // Параметры запроса
             const params = new URLSearchParams();
             params.append('x', x);
@@ -203,21 +244,11 @@
             // Выполнение POST запроса
             var baseUrl = window.location.protocol + "//" + window.location.host;
             return fetch(baseUrl + '/JakartaLabs-2/2', requestOptions)
-                .then(response => {
-                    if (circle !== null) {
-                        if (response.status === 200) {
-                            circle.setAttribute("fill", "green")
-                        }
-                        else {
-                            circle.setAttribute("fill", "red")
-                        }
-                    }
-                    return response.text();
-                })
+                .then(response => response.json())
                 .then(data => {
-                    // Вставка содержимого ответа в блок div с id results-table
-                    if (showTable) document.getElementById('table-container').innerHTML = data;
-                    else document.getElementById('results-table').innerHTML = data + document.getElementById('results-table').innerHTML;
+                    data.forEach(tableRow => {
+                        addRow(tableRow);
+                    })
                 })
                 .catch(error => console.error('Ошибка при выполнении запроса:', error));
         }

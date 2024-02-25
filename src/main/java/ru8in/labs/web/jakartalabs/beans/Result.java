@@ -1,9 +1,9 @@
 package ru8in.labs.web.jakartalabs.beans;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+import org.json.JSONObject;
 
 public class Result {
     private final static String MESSAGE_SUCCESS = "✅ Попадание";
@@ -44,25 +44,25 @@ public class Result {
         if (!this.isValid) {
             this.hitMessage = MESSAGE_ERROR;
             return false;
-        };
+        }
 
         if (x >= 0 && y >= 0) {
             if (y <= -x + r) {
                 this.hitMessage = MESSAGE_SUCCESS;
                 return true;
-            };
+            }
         }
         else if (x <= 0 && y >= 0) {
             if (Math.sqrt(x*x + y*y) <= r) {
                 this.hitMessage = MESSAGE_SUCCESS;
                 return true;
-            };
+            }
         }
         else if (x>=0 && y <= 0) {
             if (x <= r/2. && y >= -r) {
                 this.hitMessage = MESSAGE_SUCCESS;
                 return true;
-            };
+            }
         }
 
         this.hitMessage = MESSAGE_FAIL;
@@ -81,10 +81,6 @@ public class Result {
         return r;
     }
 
-    public boolean isHit() {
-        return this.isHit;
-    }
-
     public String getHitMessage() {
         return this.hitMessage;
     }
@@ -99,5 +95,18 @@ public class Result {
 
     public void setExecutionTime(double executionTime) {
         this.executionTime = executionTime;
+    }
+
+    @Override
+    public String toString() {
+        JSONObject object = new JSONObject();
+        object.put("isHit", this.isHit);
+        object.put("x", this.getX());
+        object.put("y", this.getY());
+        object.put("r", this.getR());
+        object.put("hitMessage", this.getHitMessage());
+        object.put("timestamp", this.getTimestamp());
+        object.put("executionTime", this.getExecutionTime());
+        return object.toString();
     }
 }
