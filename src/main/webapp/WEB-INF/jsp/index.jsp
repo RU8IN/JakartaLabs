@@ -240,6 +240,7 @@
                 .then(response => response.text())
                 .then(() => {
                     document.getElementById('results-table').innerHTML = '';
+                    document.querySelectorAll('.graph_circle').forEach(circle => circle.remove());
                 })
                 .catch(error => console.error('Ошибка при выполнении запроса:', error));
         }
